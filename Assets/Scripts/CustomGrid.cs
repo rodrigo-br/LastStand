@@ -2,16 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class SpriteSet
+{
+    public Sprite sprite1;
+    public Sprite sprite2;
+    public Sprite sprite3;
+}
+
 public class CustomGrid : MonoBehaviour
 {
     [SerializeField] private int width;
     [SerializeField] private int height;
     [SerializeField] private Tile tile;
     [SerializeField] private Camera myCamera;
-    [SerializeField] private Sprite[] sprites;
+    [SerializeField] private SpriteSet[] spriteSets;
     [SerializeField] private Vector3[] bulletPositions;
     [SerializeField] private SpriteRenderer currentSprite;
-    [SerializeField] private GameObject bullet;
+    [SerializeField] private Bullet bullet;
     public int Width => width;
 
     private void Awake()
@@ -32,7 +40,7 @@ public class CustomGrid : MonoBehaviour
                 spawnedTile.name = $"Tile {x} {y}";
 
                 bool isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
-                spawnedTile.Init(isOffset, sprites[i], currentSprite, bullet, bulletPositions[i]);
+                spawnedTile.Init(isOffset, spriteSets[i], currentSprite, bullet, bulletPositions[i]);
                 i++;
             }
         }

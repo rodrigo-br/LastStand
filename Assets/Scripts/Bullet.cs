@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] LayerMask layerMask;
     private bool debugShoot;
     private Vector2 targetPosition;
+    private Vector2 lastSpawnPosition;
+    public static event Action OnHitChar;
+    public static event Action OnShoot;
 
     private void Update()
     {
@@ -24,16 +28,46 @@ public class Bullet : MonoBehaviour
                 if (collider != null)
                 {
                     collider.gameObject.SetActive(false);
+                    OnHitChar?.Invoke();
                 }
-                this.enabled = false;
+                ResetPosition(lastSpawnPosition);
+                debugShoot = false;
             }
             return;
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+    private void OnEnable()
+    {
+        Tile.IsShootingAction += SetIsShooting;
+    }
+
+    private void OnDisable()
+    {
+        Tile.IsShootingAction -= SetIsShooting;
+    }
+
+    private void Shoot()
+    {
+        targetPosition = new Vector2(target.transform.position.x, target.transform.position.y);
+        if (!debugShoot)
         {
-            targetPosition = new Vector2(target.transform.position.x, target.transform.position.y);
-            debugShoot = true;
+            OnShoot?.Invoke();
+        }
+        debugShoot = true;
+    }
+
+    public void ResetPosition(Vector2 spawnPosition)
+    {
+        this.gameObject.transform.localPosition = spawnPosition;
+        lastSpawnPosition = spawnPosition;
+    }
+
+    private void SetIsShooting(bool isShooting)
+    {
+        if (isShooting)
+        {
+            Shoot();
         }
     }
 }
