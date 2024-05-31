@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Bullet : MonoBehaviour
 {
@@ -14,6 +13,7 @@ public class Bullet : MonoBehaviour
     private Vector2 lastSpawnPosition;
     public static event Action OnHitChar;
     public static event Action OnShoot;
+    private GameObject enemyObject;
 
     private void Update()
     {
@@ -27,7 +27,8 @@ public class Bullet : MonoBehaviour
                 Collider2D collider = Physics2D.OverlapPoint(transform.position, layerMask);
                 if (collider != null)
                 {
-                    collider.gameObject.SetActive(false);
+                    enemyObject = collider.gameObject;
+                    enemyObject.SetActive(false);
                     OnHitChar?.Invoke();
                 }
                 ResetPosition(lastSpawnPosition);
@@ -40,11 +41,20 @@ public class Bullet : MonoBehaviour
     private void OnEnable()
     {
         Tile.IsShootingAction += SetIsShooting;
+        GameManager.OnResetLevel += ResetLevel;
     }
 
     private void OnDisable()
     {
         Tile.IsShootingAction -= SetIsShooting;
+        GameManager.OnResetLevel -= ResetLevel;
+    }
+
+    private void ResetLevel()
+    {
+        if (enemyObject == null) return;
+
+        enemyObject.SetActive(true);
     }
 
     private void Shoot()

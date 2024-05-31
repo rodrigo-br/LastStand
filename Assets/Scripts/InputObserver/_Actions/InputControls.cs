@@ -25,38 +25,89 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
     ""maps"": [
         {
             ""name"": ""GamePlay"",
-            ""id"": ""52f1f07d-85e2-4d89-be0e-c1b535439456"",
+            ""id"": ""a3a13cd0-7613-4371-b2f7-82a9e8410b20"",
             ""actions"": [
                 {
                     ""name"": ""Shoot"",
                     ""type"": ""Button"",
-                    ""id"": ""ea4c884c-9124-4f86-a78e-2c04fe967930"",
+                    ""id"": ""f2712351-9c8f-49ab-9271-cf5b3c83b0ad"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CursorPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""991d05a2-d609-456c-b1a3-5ce9c8e8d6cb"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""GamepadStick"",
+                    ""type"": ""Value"",
+                    ""id"": ""7aae1e33-04b2-4def-b80c-a447225285eb"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""4a7e7d3b-b9cb-4888-b87b-cb2bc90efb5b"",
+                    ""id"": ""f522d2a9-170d-469b-b584-af47ae64c353"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
+                    ""groups"": ""Keyboard-mouse"",
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0b437d11-cf8b-4e48-b24d-361e0e058b0d"",
+                    ""id"": ""7527e9c3-26ac-4a4a-be85-ec8073f8af44"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""069c4c30-073a-44ff-a6cd-ec2b42f0acc5"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard-mouse"",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e48f45b-8dd8-44c2-8415-c653a7b803b2"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard-mouse"",
+                    ""action"": ""CursorPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""404398a0-24e7-4546-82e7-ec4a05f3c6d1"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GamepadStick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -65,9 +116,14 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""KeyboardMouse"",
-            ""bindingGroup"": ""KeyboardMouse"",
+            ""name"": ""Keyboard-mouse"",
+            ""bindingGroup"": ""Keyboard-mouse"",
             ""devices"": [
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
                 {
                     ""devicePath"": ""<Keyboard>"",
                     ""isOptional"": false,
@@ -91,6 +147,8 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         // GamePlay
         m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
         m_GamePlay_Shoot = m_GamePlay.FindAction("Shoot", throwIfNotFound: true);
+        m_GamePlay_CursorPosition = m_GamePlay.FindAction("CursorPosition", throwIfNotFound: true);
+        m_GamePlay_GamepadStick = m_GamePlay.FindAction("GamepadStick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -153,11 +211,15 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_GamePlay;
     private List<IGamePlayActions> m_GamePlayActionsCallbackInterfaces = new List<IGamePlayActions>();
     private readonly InputAction m_GamePlay_Shoot;
+    private readonly InputAction m_GamePlay_CursorPosition;
+    private readonly InputAction m_GamePlay_GamepadStick;
     public struct GamePlayActions
     {
         private @InputControls m_Wrapper;
         public GamePlayActions(@InputControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Shoot => m_Wrapper.m_GamePlay_Shoot;
+        public InputAction @CursorPosition => m_Wrapper.m_GamePlay_CursorPosition;
+        public InputAction @GamepadStick => m_Wrapper.m_GamePlay_GamepadStick;
         public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -170,6 +232,12 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @CursorPosition.started += instance.OnCursorPosition;
+            @CursorPosition.performed += instance.OnCursorPosition;
+            @CursorPosition.canceled += instance.OnCursorPosition;
+            @GamepadStick.started += instance.OnGamepadStick;
+            @GamepadStick.performed += instance.OnGamepadStick;
+            @GamepadStick.canceled += instance.OnGamepadStick;
         }
 
         private void UnregisterCallbacks(IGamePlayActions instance)
@@ -177,6 +245,12 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @CursorPosition.started -= instance.OnCursorPosition;
+            @CursorPosition.performed -= instance.OnCursorPosition;
+            @CursorPosition.canceled -= instance.OnCursorPosition;
+            @GamepadStick.started -= instance.OnGamepadStick;
+            @GamepadStick.performed -= instance.OnGamepadStick;
+            @GamepadStick.canceled -= instance.OnGamepadStick;
         }
 
         public void RemoveCallbacks(IGamePlayActions instance)
@@ -194,13 +268,13 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         }
     }
     public GamePlayActions @GamePlay => new GamePlayActions(this);
-    private int m_KeyboardMouseSchemeIndex = -1;
-    public InputControlScheme KeyboardMouseScheme
+    private int m_KeyboardmouseSchemeIndex = -1;
+    public InputControlScheme KeyboardmouseScheme
     {
         get
         {
-            if (m_KeyboardMouseSchemeIndex == -1) m_KeyboardMouseSchemeIndex = asset.FindControlSchemeIndex("KeyboardMouse");
-            return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
+            if (m_KeyboardmouseSchemeIndex == -1) m_KeyboardmouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard-mouse");
+            return asset.controlSchemes[m_KeyboardmouseSchemeIndex];
         }
     }
     private int m_GamepadSchemeIndex = -1;
@@ -215,5 +289,7 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
     public interface IGamePlayActions
     {
         void OnShoot(InputAction.CallbackContext context);
+        void OnCursorPosition(InputAction.CallbackContext context);
+        void OnGamepadStick(InputAction.CallbackContext context);
     }
 }

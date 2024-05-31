@@ -1184,6 +1184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: 1
   confinementArea: {fileID: 567705267}
+  cursorSpeed: 50
 --- !u!58 &722457864
 CircleCollider2D:
   m_ObjectHideFlags: 0

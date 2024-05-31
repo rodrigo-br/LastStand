@@ -13,6 +13,7 @@ public class Tile : MonoBehaviour
     private static bool isShooting;
     private Vector2 spawnPosition;
     public static Action<bool> IsShootingAction;
+    private static bool canShoot = true;
 
     public void Init(bool isOffset, SpriteSet sprite, SpriteRenderer gunSpriteRenderer, Bullet bullet, Vector2 bulletPosition)
     {
@@ -26,11 +27,20 @@ public class Tile : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.InputObserver.OnShootAction += Shoot;
+        GameManager.OnResetLevel += ResetLevel;
+        Ammo.OnOutOfAmmo += () => SetCanShoot(false);
     }
 
     private void OnDisable()
     {
         GameManager.Instance.InputObserver.OnShootAction -= Shoot;
+        GameManager.OnResetLevel -= ResetLevel;
+        Ammo.OnOutOfAmmo -= () => SetCanShoot(false);
+    }
+
+    private void ResetLevel()
+    {
+        SetCanShoot(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -50,12 +60,18 @@ public class Tile : MonoBehaviour
 
     private void Shoot()
     {
+        if (!canShoot) { return; }
         if (isMe && !isShooting)
         {
             isShooting = true;
             IsShootingAction?.Invoke(true);
             StartCoroutine(ShootAnimation());
         }
+    }
+
+    private void SetCanShoot(bool canShoot)
+    {
+        Tile.canShoot = canShoot;
     }
 
     private IEnumerator ShootAnimation()

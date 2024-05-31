@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -13,6 +12,7 @@ public class UIManager : MonoBehaviour
     private float timeRemaining;
     private bool endRound;
     private int score = 0;
+    public static event Action OnEndOfTime;
 
     private void Start()
     {
@@ -35,13 +35,20 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         Bullet.OnHitChar += SetEndRound;
-        Ammo.OnOutOfAmmo += SetEndRoundWithoutScore;
+        GameManager.OnResetLevel += ResetLevel;
     }
 
     private void OnDisable()
     {
         Bullet.OnHitChar -= SetEndRound;
-        Ammo.OnOutOfAmmo -= SetEndRoundWithoutScore;
+        GameManager.OnResetLevel -= ResetLevel;
+    }
+
+    private void ResetLevel()
+    {
+        timeRemaining = levelTime;
+        timerUI.SetTimer(levelTime);
+        endRound = false;
     }
 
     private void SetEndRound()
@@ -58,5 +65,6 @@ public class UIManager : MonoBehaviour
     private void SetEndRoundWithoutScore()
     {
         this.endRound = true;
+        OnEndOfTime?.Invoke();
     }
 }
