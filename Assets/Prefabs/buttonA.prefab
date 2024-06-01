@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7902774789613347061}
   m_Layer: 5
   m_Name: buttonA
-  m_TagString: Untagged
+  m_TagString: 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

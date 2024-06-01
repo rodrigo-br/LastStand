@@ -8,13 +8,14 @@ public class InputObserver : InputControls.IGamePlayActions, InputControls.IComb
     public event Action OnShootAction;
     public event Action<Vector2> OnCursorMoveAction;
     public event Action<Vector2> OnGamepadStickAction;
+    public event Action<int> OnGamepadButtonsAction;
 
     public InputObserver()
     {
         inputControl = new InputControls();
         inputControl.GamePlay.AddCallbacks(this);
         inputControl.ComboSequence.AddCallbacks(this);
-        inputControl.GamePlay.Enable();
+        inputControl.ComboSequence.Enable();
     }
 
     public void OnShoot(InputAction.CallbackContext context)
@@ -37,6 +38,9 @@ public class InputObserver : InputControls.IGamePlayActions, InputControls.IComb
 
     public void OnGamepadButtons(InputAction.CallbackContext context)
     {
-        Debug.Log((int)context.ReadValue<float>());
+        if (context.started)
+        {
+            OnGamepadButtonsAction?.Invoke((int)context.ReadValue<float>());
+        }
     }
 }

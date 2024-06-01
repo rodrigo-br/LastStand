@@ -200,7 +200,7 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/y"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=3)"",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard-mouse"",
                     ""action"": ""GamepadButtons"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

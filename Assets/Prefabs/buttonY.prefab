@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: buttonY
       objectReference: {fileID: 0}
+    - target: {fileID: 3094745880266516535, guid: 0dfa7b171acc8eb4abfeab936a5d5cce, type: 3}
+      propertyPath: m_TagString
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7902774789613347061, guid: 0dfa7b171acc8eb4abfeab936a5d5cce, type: 3}
       propertyPath: m_Sprite
       value: 
