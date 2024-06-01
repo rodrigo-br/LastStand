@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -16,6 +17,12 @@ public class Bullet : MonoBehaviour
     private GameObject enemyObject;
     private bool canShoot = true;
     public bool CanShoot => canShoot;
+    private SpriteRenderer aimSprite;
+
+    private void Awake()
+    {
+        aimSprite = target.GetComponent<SpriteRenderer>();
+    }
 
     private void Update()
     {
@@ -38,7 +45,6 @@ public class Bullet : MonoBehaviour
                 ResetPosition(lastSpawnPosition);
                 debugShoot = false;
             }
-            return;
         }
     }
 
@@ -68,8 +74,22 @@ public class Bullet : MonoBehaviour
         if (!debugShoot)
         {
             OnShoot?.Invoke();
+            StartCoroutine(BlinkAim());
         }
         debugShoot = true;
+    }
+
+    private IEnumerator BlinkAim()
+    {
+        int blinks = 2;
+        while (blinks > 0)
+        {
+            aimSprite.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+            aimSprite.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            blinks --;
+        }
     }
 
     public void ResetPosition(Vector2 spawnPosition)

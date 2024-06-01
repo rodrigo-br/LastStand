@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class Aim : MonoBehaviour
 {
-    //[SerializeField] private PlayerInput playerInput;
     [SerializeField] private float velocity = 50;
     [SerializeField] private Collider2D confinementArea;
     [SerializeField] private float cursorSpeed = 20f;
@@ -11,7 +10,8 @@ public class Aim : MonoBehaviour
     private Vector3 mouseWorldPosition = Vector3.zero;
     private Vector3 gamepadStickInput = Vector3.zero;
     private Vector3 customVirtualMouse = Vector3.zero;
-    private bool isMovingMouse = true;
+    private bool isMovingMouse = false;
+    private bool lockMouse = false;
 
     private void Awake()
     {
@@ -22,6 +22,12 @@ public class Aim : MonoBehaviour
     {
         GameManager.Instance.InputObserver.OnCursorMoveAction += CheckCursorPosition;
         GameManager.Instance.InputObserver.OnGamepadStickAction += CheckGamepadStickDirection;
+        GameManager.OnResetLevel += ResetLevel;
+    }
+
+    private void ResetLevel(bool obj)
+    {
+        lockMouse = false;
     }
 
     private void OnDisable()
@@ -32,6 +38,7 @@ public class Aim : MonoBehaviour
 
     private void CheckGamepadStickDirection(Vector2 pos)
     {
+        lockMouse = true;
         isMovingMouse = false;
         Vector3 gamestickMovement = (Vector3)(cursorSpeed * Time.deltaTime * pos);
         gamepadStickInput = gamestickMovement;
@@ -39,6 +46,7 @@ public class Aim : MonoBehaviour
 
     private void CheckCursorPosition(Vector2 pos)
     {
+        if (lockMouse) { return; }
         isMovingMouse = true;
         mouseWorldPosition = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y));
     }
