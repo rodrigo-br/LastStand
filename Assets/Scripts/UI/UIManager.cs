@@ -9,13 +9,22 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float levelTime = 10.0f;
     [SerializeField] private int pointsPerTimeLeft = 100;
     [SerializeField] private int pointsPerBulletsLeft = 100;
+    [SerializeField] private Animator enemyAnimator;
     private float timeRemaining;
     private bool endRound;
     private int score = 0;
     public static event Action OnEndOfTime;
+    private float nextShoot;
+    private Enemy enemy;
+
+    private void Awake()
+    {
+        enemy = enemyAnimator.GetComponent<Enemy>();
+    }
 
     private void Start()
     {
+        nextShoot = levelTime - 2f;
         timeRemaining = levelTime;
         timerUI.SetTimer(timeRemaining);
         scoreUI.SetScore(score);
@@ -28,6 +37,12 @@ public class UIManager : MonoBehaviour
         if (timeRemaining < 0)
         {
             SetEndRoundWithoutScore();
+        }
+        if (timeRemaining < nextShoot)
+        {
+            enemyAnimator.SetTrigger("Shoot");
+            enemy.Explode();
+            nextShoot -= 2f;
         }
         timerUI.SetTimer(timeRemaining);
     }
@@ -44,9 +59,14 @@ public class UIManager : MonoBehaviour
         GameManager.OnResetLevel -= ResetLevel;
     }
 
-    private void ResetLevel()
+    private void ResetLevel(bool isDefeat)
     {
+        if (!isDefeat)
+        {
+            enemyAnimator.SetTrigger("Reset");
+        }
         timeRemaining = levelTime;
+        nextShoot = levelTime - 2f;
         timerUI.SetTimer(levelTime);
         endRound = false;
     }
@@ -64,6 +84,9 @@ public class UIManager : MonoBehaviour
 
     private void SetEndRoundWithoutScore()
     {
+        GameManager.Instance.SetDefeat(true);
+        score = 0;
+        scoreUI.SetScore(score);
         this.endRound = true;
         OnEndOfTime?.Invoke();
     }

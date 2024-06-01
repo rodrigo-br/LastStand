@@ -38,7 +38,7 @@ public class Tile : MonoBehaviour
         Ammo.OnOutOfAmmo -= () => SetCanShoot(false);
     }
 
-    private void ResetLevel()
+    private void ResetLevel(bool isDefeat)
     {
         SetCanShoot(true);
     }
@@ -60,7 +60,7 @@ public class Tile : MonoBehaviour
 
     private void Shoot()
     {
-        if (!canShoot) { return; }
+        if (!canShoot || !bullet.CanShoot) { return; }
         if (isMe && !isShooting)
         {
             isShooting = true;

@@ -18,6 +18,18 @@ public class InputObserver : InputControls.IGamePlayActions, InputControls.IComb
         inputControl.ComboSequence.Enable();
     }
 
+    public void ActivateComboSequence()
+    {
+        inputControl.GamePlay.Disable();
+        inputControl.ComboSequence.Enable();
+    }
+
+    public void DeactivateComboSequence()
+    {
+        inputControl.ComboSequence.Disable();
+        inputControl.GamePlay.Enable();
+    }
+
     public void OnShoot(InputAction.CallbackContext context)
     {
         if (context.started)

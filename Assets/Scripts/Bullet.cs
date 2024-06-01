@@ -14,6 +14,8 @@ public class Bullet : MonoBehaviour
     public static event Action OnHitChar;
     public static event Action OnShoot;
     private GameObject enemyObject;
+    private bool canShoot = true;
+    public bool CanShoot => canShoot;
 
     private void Update()
     {
@@ -28,7 +30,9 @@ public class Bullet : MonoBehaviour
                 if (collider != null)
                 {
                     enemyObject = collider.gameObject;
-                    enemyObject.SetActive(false);
+                    Animator enemyAnimator = enemyObject.GetComponent<Animator>();
+                    enemyAnimator.SetTrigger("Die");
+                    canShoot = false;
                     OnHitChar?.Invoke();
                 }
                 ResetPosition(lastSpawnPosition);
@@ -50,11 +54,12 @@ public class Bullet : MonoBehaviour
         GameManager.OnResetLevel -= ResetLevel;
     }
 
-    private void ResetLevel()
+    private void ResetLevel(bool isDefeat)
     {
         if (enemyObject == null) return;
 
         enemyObject.SetActive(true);
+        canShoot = true;
     }
 
     private void Shoot()
@@ -75,7 +80,7 @@ public class Bullet : MonoBehaviour
 
     private void SetIsShooting(bool isShooting)
     {
-        if (isShooting)
+        if (isShooting && canShoot)
         {
             Shoot();
         }

@@ -13,7 +13,7 @@ public class Ammo : UIBase
         bulletCount = maxBulletCount;
     }
 
-    private void ResetAmmo()
+    private void ResetAmmo(bool isDefeat)
     {
         Image[] children = gameObject.GetComponentsInChildren<Image>(true);
 
