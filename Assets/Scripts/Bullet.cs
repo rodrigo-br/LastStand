@@ -8,7 +8,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float shrinkSpeed;
     [SerializeField] private TrailRenderer trailRenderer;
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private ParticleSystem _particleSystem;
     private bool debugShoot;
     private Vector2 targetPosition;
     private Vector2 lastSpawnPosition;
@@ -75,6 +76,7 @@ public class Bullet : MonoBehaviour
         {
             OnShoot?.Invoke();
             StartCoroutine(BlinkAim());
+            _particleSystem.Play();
         }
         debugShoot = true;
     }
@@ -85,9 +87,9 @@ public class Bullet : MonoBehaviour
         while (blinks > 0)
         {
             aimSprite.enabled = true;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.06f);
             aimSprite.enabled = false;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.06f);
             blinks --;
         }
     }
