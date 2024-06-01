@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private ParticleSystem hitParticle;
     private bool debugShoot;
     private Vector2 targetPosition;
     private Vector2 lastSpawnPosition;
@@ -39,6 +40,7 @@ public class Bullet : MonoBehaviour
                 {
                     enemyObject = collider.gameObject;
                     Animator enemyAnimator = enemyObject.GetComponent<Animator>();
+                    hitParticle.Play();
                     enemyAnimator.SetTrigger("Die");
                     canShoot = false;
                     OnHitChar?.Invoke();
