@@ -90,6 +90,111 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "ComboSequence",
+            "id": "7cba41ad-95e6-4bdb-ac71-e1a12b059f40",
+            "actions": [
+                {
+                    "name": "GamepadButtons",
+                    "type": "Button",
+                    "id": "2e953ad4-e141-4a09-99d8-c660c0c29f86",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cac037d8-e38e-4dc8-b3d0-97bda8986a07",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "Gamepad",
+                    "action": "GamepadButtons",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6b1947fb-f613-4e9a-b52d-0dada7af85cf",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "Gamepad",
+                    "action": "GamepadButtons",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0c01daa0-91bf-485b-891b-c23045fe54f4",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "Scale(factor=3)",
+                    "groups": "Gamepad",
+                    "action": "GamepadButtons",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7247b5f1-2548-4bd6-86a8-502fee5cbcbe",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "Scale(factor=4)",
+                    "groups": "Gamepad",
+                    "action": "GamepadButtons",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73a7e6bf-1b0e-4b34-8391-290d5495cba9",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "Keyboard-mouse",
+                    "action": "GamepadButtons",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5e8a7ae1-3349-4da0-a5bb-59b8d77e50c9",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "Keyboard-mouse",
+                    "action": "GamepadButtons",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "478971cb-a052-42be-9a53-cc927a535c2e",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "Scale(factor=3)",
+                    "groups": "",
+                    "action": "GamepadButtons",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "85586603-90ec-4a9b-874a-5cef2221397f",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "Scale(factor=4)",
+                    "groups": "Keyboard-mouse",
+                    "action": "GamepadButtons",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

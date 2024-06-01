@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputObserver : InputControls.IGamePlayActions
+public class InputObserver : InputControls.IGamePlayActions, InputControls.IComboSequenceActions
 {
     private readonly InputControls inputControl;
     public event Action OnShootAction;
@@ -13,7 +13,8 @@ public class InputObserver : InputControls.IGamePlayActions
     {
         inputControl = new InputControls();
         inputControl.GamePlay.AddCallbacks(this);
-        inputControl.Enable();
+        inputControl.ComboSequence.AddCallbacks(this);
+        inputControl.GamePlay.Enable();
     }
 
     public void OnShoot(InputAction.CallbackContext context)
@@ -32,5 +33,10 @@ public class InputObserver : InputControls.IGamePlayActions
     public void OnGamepadStick(InputAction.CallbackContext context)
     {
         OnGamepadStickAction?.Invoke(context.ReadValue<Vector2>());
+    }
+
+    public void OnGamepadButtons(InputAction.CallbackContext context)
+    {
+        Debug.Log((int)context.ReadValue<float>());
     }
 }

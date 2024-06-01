@@ -112,6 +112,111 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""ComboSequence"",
+            ""id"": ""7cba41ad-95e6-4bdb-ac71-e1a12b059f40"",
+            ""actions"": [
+                {
+                    ""name"": ""GamepadButtons"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e953ad4-e141-4a09-99d8-c660c0c29f86"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""cac037d8-e38e-4dc8-b3d0-97bda8986a07"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GamepadButtons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6b1947fb-f613-4e9a-b52d-0dada7af85cf"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GamepadButtons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0c01daa0-91bf-485b-891b-c23045fe54f4"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GamepadButtons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7247b5f1-2548-4bd6-86a8-502fee5cbcbe"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GamepadButtons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""73a7e6bf-1b0e-4b34-8391-290d5495cba9"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": ""Keyboard-mouse"",
+                    ""action"": ""GamepadButtons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5e8a7ae1-3349-4da0-a5bb-59b8d77e50c9"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": ""Keyboard-mouse"",
+                    ""action"": ""GamepadButtons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""478971cb-a052-42be-9a53-cc927a535c2e"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": """",
+                    ""action"": ""GamepadButtons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85586603-90ec-4a9b-874a-5cef2221397f"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": ""Keyboard-mouse"",
+                    ""action"": ""GamepadButtons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -149,6 +254,9 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         m_GamePlay_Shoot = m_GamePlay.FindAction("Shoot", throwIfNotFound: true);
         m_GamePlay_CursorPosition = m_GamePlay.FindAction("CursorPosition", throwIfNotFound: true);
         m_GamePlay_GamepadStick = m_GamePlay.FindAction("GamepadStick", throwIfNotFound: true);
+        // ComboSequence
+        m_ComboSequence = asset.FindActionMap("ComboSequence", throwIfNotFound: true);
+        m_ComboSequence_GamepadButtons = m_ComboSequence.FindAction("GamepadButtons", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -268,6 +376,52 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         }
     }
     public GamePlayActions @GamePlay => new GamePlayActions(this);
+
+    // ComboSequence
+    private readonly InputActionMap m_ComboSequence;
+    private List<IComboSequenceActions> m_ComboSequenceActionsCallbackInterfaces = new List<IComboSequenceActions>();
+    private readonly InputAction m_ComboSequence_GamepadButtons;
+    public struct ComboSequenceActions
+    {
+        private @InputControls m_Wrapper;
+        public ComboSequenceActions(@InputControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @GamepadButtons => m_Wrapper.m_ComboSequence_GamepadButtons;
+        public InputActionMap Get() { return m_Wrapper.m_ComboSequence; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ComboSequenceActions set) { return set.Get(); }
+        public void AddCallbacks(IComboSequenceActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ComboSequenceActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ComboSequenceActionsCallbackInterfaces.Add(instance);
+            @GamepadButtons.started += instance.OnGamepadButtons;
+            @GamepadButtons.performed += instance.OnGamepadButtons;
+            @GamepadButtons.canceled += instance.OnGamepadButtons;
+        }
+
+        private void UnregisterCallbacks(IComboSequenceActions instance)
+        {
+            @GamepadButtons.started -= instance.OnGamepadButtons;
+            @GamepadButtons.performed -= instance.OnGamepadButtons;
+            @GamepadButtons.canceled -= instance.OnGamepadButtons;
+        }
+
+        public void RemoveCallbacks(IComboSequenceActions instance)
+        {
+            if (m_Wrapper.m_ComboSequenceActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IComboSequenceActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ComboSequenceActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ComboSequenceActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ComboSequenceActions @ComboSequence => new ComboSequenceActions(this);
     private int m_KeyboardmouseSchemeIndex = -1;
     public InputControlScheme KeyboardmouseScheme
     {
@@ -291,5 +445,9 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnCursorPosition(InputAction.CallbackContext context);
         void OnGamepadStick(InputAction.CallbackContext context);
+    }
+    public interface IComboSequenceActions
+    {
+        void OnGamepadButtons(InputAction.CallbackContext context);
     }
 }
