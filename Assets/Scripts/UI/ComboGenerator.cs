@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,8 +42,13 @@ public class ComboGenerator : MonoBehaviour
     private void CheckComboInput(int buttonIndex)
     {
         GameObject first = images[currentComboIndex].gameObject;
-        if (!first.CompareTag(buttonIndex.ToString())) return ;
-
+        if (!first.CompareTag(buttonIndex.ToString()))
+        {
+            GameManager.Instance.AudioManager.PlayIncorrectComboClip();
+            images[currentComboIndex].transform.DOShakePosition(1f, strength: 6);
+            return;
+        }
+        GameManager.Instance.AudioManager.PlayCorrectComboClip();
         first.SetActive(false);
         first.transform.SetParent(null);
         currentComboIndex++;
