@@ -16,12 +16,18 @@ public class NicknameInput : MonoBehaviour
 
     private void Start()
     {
-        startButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
+        startButton.onClick.AddListener(StartGame);
         startButton.gameObject.SetActive(false);
     }
 
     private void CheckNicknameSize(string nick)
     {
         startButton.gameObject.SetActive(nick.Length >= 3);
+    }
+
+    private void StartGame()
+    {
+        FindObjectOfType<PlayfabManager>().SubmitName();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

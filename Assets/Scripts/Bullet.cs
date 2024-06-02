@@ -41,6 +41,7 @@ public class Bullet : MonoBehaviour
                     enemyObject = collider.gameObject;
                     Animator enemyAnimator = enemyObject.GetComponent<Animator>();
                     hitParticle.Play();
+                    GameManager.Instance.AudioManager.PlayEnemyDieClip();
                     enemyAnimator.SetTrigger("Die");
                     canShoot = false;
                     OnHitChar?.Invoke();
@@ -78,6 +79,7 @@ public class Bullet : MonoBehaviour
         {
             OnShoot?.Invoke();
             StartCoroutine(BlinkAim());
+            GameManager.Instance.AudioManager.PlayPlayerShootClip();
             _particleSystem.Play();
         }
         debugShoot = true;
