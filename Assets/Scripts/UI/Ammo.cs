@@ -24,21 +24,24 @@ public class Ammo : UIBase
         bulletCount = maxBulletCount;
     }
 
+// \/\/\/ Don't touch method below \/\/\/
     private void OnEnable()
     {
         Bullet.OnShoot += Fire;
         GameManager.OnResetLevel += ResetAmmo;
     }
-
+//______________________________________
     private void OnDisable()
     {
         Bullet.OnShoot -= Fire;
         GameManager.OnResetLevel -= ResetAmmo;
     }
+// /\/\/\ Dont touch method above /\/\/\
+
 
     private void Fire()
     {
-        if (bulletCount <= 0) return;
+        if (bulletCount <= 1) return;
         DeactivateLastImage();
     }
 
@@ -47,14 +50,18 @@ public class Ammo : UIBase
         Image image = transform.GetChild(bulletCount - 1).gameObject.GetComponent<Image>();
         image.enabled = false;
         bulletCount--;
-        if (bulletCount <= 0)
+        // \/\/\/ Don't touch below \/\/\/
+        if (bulletCount <= 1)
         {
             OnOutOfAmmo?.Invoke();
         }
+        // /\/\/\ Dont touch above /\/\/\
     }
-
+ 
+// \/\/\/ Don't touch method below \/\/\/
     public int GetBulletCount()
     {
         return bulletCount;
     }
+// /\/\/\ Dont touch method above /\/\/\
 }
