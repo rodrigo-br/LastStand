@@ -1,20 +1,27 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour, InputControls.ISettingsActions
 {
+    private InputControls inputControls;
     [SerializeField] AudioClip enemyShootClip;
     [SerializeField] AudioClip playerShootClip;
     [SerializeField] AudioClip[] enemySounds;
     [SerializeField] AudioClip[] enemyDieClips;
     [SerializeField] AudioClip[] playerDieClips;
-    [SerializeField] Slider musicSlider;
-    [SerializeField] Slider sfxSlider;
+    [SerializeField] AudioClip correctCombo;
+    [SerializeField] AudioClip incorrectCombo;
+    private float sfxVolume;
     AudioSource myAudioSource;
 
     private void Awake()
     {
         myAudioSource = GetComponent<AudioSource>();
+        sfxVolume = 1;
+        inputControls = new InputControls();
+        inputControls.Settings.AddCallbacks(this);
+        inputControls.Settings.Enable();
     }
 
     private void Start()
@@ -22,9 +29,19 @@ public class AudioManager : MonoBehaviour
         myAudioSource.Play();
     }
 
+    public void ChangeMusicVolume(float amount)
+    {
+        myAudioSource.volume += amount;
+    }
+
+    public void ChangeSFXVolume(float amount)
+    {
+        sfxVolume = Mathf.Clamp(sfxVolume + amount, 0, 1f);
+    }
+
     private void PlayClip(AudioClip clip)
     {
-        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position, sfxVolume);
     }
 
     public void PlayEnemySoundClip()
@@ -50,5 +67,51 @@ public class AudioManager : MonoBehaviour
     public void PlayEnemyShootClip()
     {
         PlayClip(enemyShootClip);
+    }
+
+    public void PlayCorrectComboClip()
+    {
+        PlayClip(correctCombo);
+    }
+
+    public void PlayIncorrectComboClip()
+    {
+        PlayClip(incorrectCombo);
+    }
+
+    public void OnMusicVolumeUp(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            ChangeMusicVolume(0.05f);
+            Debug.Log(myAudioSource.volume);
+        }
+    }
+
+    public void OnMusicVolumeDown(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            ChangeMusicVolume(-0.05f);
+            Debug.Log(myAudioSource.volume);
+        }
+    }
+
+    public void OnSFXVolumeUp(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            ChangeMusicVolume(0.1f);
+            Debug.Log(sfxVolume);
+        }
+    }
+
+    public void OnSFXVolumeDown(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            ChangeMusicVolume(-0.1f);
+            Debug.Log(sfxVolume);
+        }
     }
 }

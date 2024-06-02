@@ -267,6 +267,138 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Settings"",
+            ""id"": ""2b7931bb-242a-46af-b186-9f137427a693"",
+            ""actions"": [
+                {
+                    ""name"": ""MusicVolumeUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""43b8acc0-604c-4c17-9922-64d859ee61e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MusicVolumeDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""465938b7-a304-41d5-9ada-0cb710933890"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SFXVolumeUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""82dfc6e1-55aa-444f-aee4-886b1b355632"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SFXVolumeDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""02d4b169-a6f9-470a-8483-98e48acf6cc1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""974403fe-0f1e-4063-9c70-e65a8283469f"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard-mouse"",
+                    ""action"": ""MusicVolumeUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fdd2d8c7-0bc9-4d71-ac57-a3754b131a2b"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MusicVolumeUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""435c2924-6f01-496b-8457-a391a04191b6"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MusicVolumeDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf9ff3e7-c793-40b5-9bdd-e8f183a14b2b"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard-mouse"",
+                    ""action"": ""MusicVolumeDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43b4d93e-342b-4f52-91cb-9a0c28b75574"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard-mouse"",
+                    ""action"": ""SFXVolumeUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0e564ea1-3586-4078-aa35-d881b1e9e5f5"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SFXVolumeUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1eaf2ae-a629-42f0-a7bf-70fff2717dd4"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SFXVolumeDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""420773fe-1dfa-4f8f-a4e6-b8a5e522f50d"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard-mouse"",
+                    ""action"": ""SFXVolumeDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -310,6 +442,12 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Select = m_UI.FindAction("Select", throwIfNotFound: true);
+        // Settings
+        m_Settings = asset.FindActionMap("Settings", throwIfNotFound: true);
+        m_Settings_MusicVolumeUp = m_Settings.FindAction("MusicVolumeUp", throwIfNotFound: true);
+        m_Settings_MusicVolumeDown = m_Settings.FindAction("MusicVolumeDown", throwIfNotFound: true);
+        m_Settings_SFXVolumeUp = m_Settings.FindAction("SFXVolumeUp", throwIfNotFound: true);
+        m_Settings_SFXVolumeDown = m_Settings.FindAction("SFXVolumeDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -521,6 +659,76 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Settings
+    private readonly InputActionMap m_Settings;
+    private List<ISettingsActions> m_SettingsActionsCallbackInterfaces = new List<ISettingsActions>();
+    private readonly InputAction m_Settings_MusicVolumeUp;
+    private readonly InputAction m_Settings_MusicVolumeDown;
+    private readonly InputAction m_Settings_SFXVolumeUp;
+    private readonly InputAction m_Settings_SFXVolumeDown;
+    public struct SettingsActions
+    {
+        private @InputControls m_Wrapper;
+        public SettingsActions(@InputControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MusicVolumeUp => m_Wrapper.m_Settings_MusicVolumeUp;
+        public InputAction @MusicVolumeDown => m_Wrapper.m_Settings_MusicVolumeDown;
+        public InputAction @SFXVolumeUp => m_Wrapper.m_Settings_SFXVolumeUp;
+        public InputAction @SFXVolumeDown => m_Wrapper.m_Settings_SFXVolumeDown;
+        public InputActionMap Get() { return m_Wrapper.m_Settings; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SettingsActions set) { return set.Get(); }
+        public void AddCallbacks(ISettingsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SettingsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SettingsActionsCallbackInterfaces.Add(instance);
+            @MusicVolumeUp.started += instance.OnMusicVolumeUp;
+            @MusicVolumeUp.performed += instance.OnMusicVolumeUp;
+            @MusicVolumeUp.canceled += instance.OnMusicVolumeUp;
+            @MusicVolumeDown.started += instance.OnMusicVolumeDown;
+            @MusicVolumeDown.performed += instance.OnMusicVolumeDown;
+            @MusicVolumeDown.canceled += instance.OnMusicVolumeDown;
+            @SFXVolumeUp.started += instance.OnSFXVolumeUp;
+            @SFXVolumeUp.performed += instance.OnSFXVolumeUp;
+            @SFXVolumeUp.canceled += instance.OnSFXVolumeUp;
+            @SFXVolumeDown.started += instance.OnSFXVolumeDown;
+            @SFXVolumeDown.performed += instance.OnSFXVolumeDown;
+            @SFXVolumeDown.canceled += instance.OnSFXVolumeDown;
+        }
+
+        private void UnregisterCallbacks(ISettingsActions instance)
+        {
+            @MusicVolumeUp.started -= instance.OnMusicVolumeUp;
+            @MusicVolumeUp.performed -= instance.OnMusicVolumeUp;
+            @MusicVolumeUp.canceled -= instance.OnMusicVolumeUp;
+            @MusicVolumeDown.started -= instance.OnMusicVolumeDown;
+            @MusicVolumeDown.performed -= instance.OnMusicVolumeDown;
+            @MusicVolumeDown.canceled -= instance.OnMusicVolumeDown;
+            @SFXVolumeUp.started -= instance.OnSFXVolumeUp;
+            @SFXVolumeUp.performed -= instance.OnSFXVolumeUp;
+            @SFXVolumeUp.canceled -= instance.OnSFXVolumeUp;
+            @SFXVolumeDown.started -= instance.OnSFXVolumeDown;
+            @SFXVolumeDown.performed -= instance.OnSFXVolumeDown;
+            @SFXVolumeDown.canceled -= instance.OnSFXVolumeDown;
+        }
+
+        public void RemoveCallbacks(ISettingsActions instance)
+        {
+            if (m_Wrapper.m_SettingsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISettingsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SettingsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SettingsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SettingsActions @Settings => new SettingsActions(this);
     private int m_KeyboardmouseSchemeIndex = -1;
     public InputControlScheme KeyboardmouseScheme
     {
@@ -552,5 +760,12 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnSelect(InputAction.CallbackContext context);
+    }
+    public interface ISettingsActions
+    {
+        void OnMusicVolumeUp(InputAction.CallbackContext context);
+        void OnMusicVolumeDown(InputAction.CallbackContext context);
+        void OnSFXVolumeUp(InputAction.CallbackContext context);
+        void OnSFXVolumeDown(InputAction.CallbackContext context);
     }
 }
