@@ -3,6 +3,8 @@ using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
+using System;
+using System.Collections;
 
 public class PlayfabManager : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class PlayfabManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameInput;
     private bool hasName = false;
     public bool HasName => hasName;
+    private const string UID_KEY = "UniqueID";
 
     private void Awake()
     {
@@ -33,9 +36,10 @@ public class PlayfabManager : MonoBehaviour
 
     private void Login()
     {
+        string uniqueID = GetOrCreateUID();
         var request = new LoginWithCustomIDRequest
         {
-            CustomId = SystemInfo.deviceUniqueIdentifier,
+            CustomId = uniqueID,
             CreateAccount = true,
             InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
             {
@@ -43,6 +47,19 @@ public class PlayfabManager : MonoBehaviour
             }
         };
         PlayFabClientAPI.LoginWithCustomID(request, OnSuccessLogin, OnError);
+    }
+
+    private string GetOrCreateUID()
+    {
+        if (PlayerPrefs.HasKey(UID_KEY))
+        {
+            return PlayerPrefs.GetString(UID_KEY);
+        }
+
+        string newUID = Guid.NewGuid().ToString();
+        PlayerPrefs.SetString(UID_KEY, newUID);
+
+        return newUID;
     }
 
     private void OnSuccessLogin(LoginResult result)
@@ -55,7 +72,7 @@ public class PlayfabManager : MonoBehaviour
         }
 
         hasName = name != null;
-        Debug.Log($"HAS NAME = : {hasName}");
+        Debug.Log($"HAS NAME : {hasName}");
     }
 
     private void OnError(PlayFabError error)
@@ -83,7 +100,7 @@ public class PlayfabManager : MonoBehaviour
     private void OnLeaderboardUpdate(UpdatePlayerStatisticsResult result)
     {
         Debug.Log("Sucessfuly update leaderboard");
-        GetLeaderBoard();
+        PlayfabManager.Instance.Invoke("GetLeaderBoard", 1f);
     }
 
     public void GetLeaderBoard()
@@ -100,6 +117,25 @@ public class PlayfabManager : MonoBehaviour
     private void OnLeaderboardGet(GetLeaderboardResult result)
     {
         Debug.Log("Successfuly get leaderboard");
+        UIManager uIManager = FindObjectOfType<UIManager>();
+        if (uIManager == null) { return; }
+
+        uIManager.ShowLeaderBoard(result);
+    }
+
+    public void GetLeaderBoardAroundPlayer()
+    {
+        var request = new GetLeaderboardAroundPlayerRequest
+        {
+            StatisticName = "CurrencyScore",
+            MaxResultsCount = 6,
+        };
+        PlayFabClientAPI.GetLeaderboardAroundPlayer(request, OnLeaderboardAroundPlayerGet, OnError);
+    }
+
+    private void OnLeaderboardAroundPlayerGet(GetLeaderboardAroundPlayerResult result)
+    {
+        Debug.Log("Successfuly get leaderboard around player");
         UIManager uIManager = FindObjectOfType<UIManager>();
         if (uIManager == null) { return; }
 

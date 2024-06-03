@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            InputObserver.ActivateUI();
             yield return new WaitUntil(() => canReset);
         }
         canReset = false;

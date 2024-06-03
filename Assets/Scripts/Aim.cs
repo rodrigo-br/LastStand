@@ -9,13 +9,14 @@ public class Aim : MonoBehaviour
     private Camera cam;
     private Vector3 mouseWorldPosition = Vector3.zero;
     private Vector3 gamepadStickInput = Vector3.zero;
-    private Vector3 customVirtualMouse = Vector3.zero;
+    private Vector3 customVirtualMouse;
     private bool isMovingMouse = false;
     private bool lockMouse = false;
 
     private void Awake()
     {
         cam = Camera.main;
+        customVirtualMouse = newVirtualPosition();
     }
 
     private void OnEnable()
@@ -48,6 +49,10 @@ public class Aim : MonoBehaviour
     {
         if (lockMouse) { return; }
         isMovingMouse = true;
+        if (pos == Vector2.zero)
+        {
+            pos = newVirtualPosition();
+        }
         mouseWorldPosition = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y));
     }
 
@@ -83,5 +88,10 @@ public class Aim : MonoBehaviour
     {
         Vector3 closestPoint = confinementArea.ClosestPoint(targetPosition);
         return new Vector3(closestPoint.x, closestPoint.y, transform.position.z);
+    }
+
+    private Vector2 newVirtualPosition()
+    {
+        return new Vector2(Random.Range(200, 380), Random.Range(80, 250));
     }
 }

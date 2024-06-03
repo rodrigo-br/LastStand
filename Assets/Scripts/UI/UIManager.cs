@@ -3,6 +3,7 @@ using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PlayfabManager playfabManager;
     [SerializeField] private GameObject rowPrefab;
     [SerializeField] private Transform rowsParent;
+    [SerializeField] private Button leaderboardAroundPlayerButton;
     private float timeRemaining;
     private bool endRound;
     private int score = 0;
@@ -31,6 +33,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        leaderboardAroundPlayerButton.onClick.AddListener(() => playfabManager.GetLeaderBoardAroundPlayer());
+        Cursor.visible = false;
         nextShoot = levelTime - 2f;
         timeRemaining = levelTime;
         timerUI.SetTimer(timeRemaining);
@@ -45,6 +49,10 @@ public class UIManager : MonoBehaviour
         {
             enemyAnimator.SetTrigger("Shoot");
             GameManager.Instance.AudioManager.PlayEnemyShootClip();
+            if (nextShoot > 5 && nextShoot < 7)
+            {
+                GameManager.Instance.AudioManager.PlayEnemySoundClip();
+            }
             enemy.Explode();
             nextShoot -= 2f;
         }
@@ -73,6 +81,7 @@ public class UIManager : MonoBehaviour
         {
             enemyAnimator.SetTrigger("Reset");
         }
+        Cursor.visible = false;
         leaderboardUI.SetActive(false);
         timeRemaining = levelTime;
         nextShoot = levelTime - 2f;
@@ -93,6 +102,7 @@ public class UIManager : MonoBehaviour
 
     private void SetEndRoundWithoutScore()
     {
+        GameManager.Instance.InputObserver.DeactivateAll();
         GameManager.Instance.AudioManager.PlayPlayerDieClip();
         playfabManager.SendLeaderboard(score);
         GameManager.Instance.SetDefeat(true);
@@ -110,12 +120,31 @@ public class UIManager : MonoBehaviour
         }
 
         leaderboardUI.SetActive(true);
+        Cursor.visible = true;
 
         foreach (var item in result.Leaderboard)
         {
             GameObject newRow = Instantiate(rowPrefab, rowsParent);
             TextMeshProUGUI[] texts = newRow.GetComponentsInChildren<TextMeshProUGUI>();
             texts[0].text = item.DisplayName.Truncate(9);
+            texts[1].text = "$" + item.StatValue.ToString();
+            Debug.Log($"{item.Position} {item.PlayFabId} {item.StatValue}");
+        }
+        GameManager.Instance.InputObserver.ActivateUI();
+    }
+
+    public void ShowLeaderBoard(GetLeaderboardAroundPlayerResult result)
+    {
+        foreach (Transform item in rowsParent)
+        {
+            Destroy(item.gameObject);
+        }
+
+        foreach (var item in result.Leaderboard)
+        {
+            GameObject newRow = Instantiate(rowPrefab, rowsParent);
+            TextMeshProUGUI[] texts = newRow.GetComponentsInChildren<TextMeshProUGUI>();
+            texts[0].text = $"{(item.Position + 1)} {item.DisplayName.Truncate(9)}";
             texts[1].text = "$" + item.StatValue.ToString();
             Debug.Log($"{item.Position} {item.PlayFabId} {item.StatValue}");
         }
