@@ -101,7 +101,7 @@ public class AudioManager : MonoBehaviour, InputControls.ISettingsActions
     {
         if (context.performed)
         {
-            ChangeMusicVolume(0.1f);
+            ChangeSFXVolume(0.1f);
             Debug.Log(sfxVolume);
         }
     }
@@ -110,7 +110,7 @@ public class AudioManager : MonoBehaviour, InputControls.ISettingsActions
     {
         if (context.performed)
         {
-            ChangeMusicVolume(-0.1f);
+            ChangeSFXVolume(-0.1f);
             Debug.Log(sfxVolume);
         }
     }

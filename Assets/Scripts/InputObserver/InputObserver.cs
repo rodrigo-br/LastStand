@@ -34,6 +34,13 @@ public class InputObserver : InputControls.IGamePlayActions, InputControls.IComb
         inputControl.GamePlay.Enable();
     }
 
+    public void DeactivateAll()
+    {
+        inputControl.ComboSequence.Disable();
+        inputControl.UI.Disable();
+        inputControl.GamePlay.Disable();
+    }
+
     public void ActivateUI()
     {
         inputControl.ComboSequence.Disable();
