@@ -67,12 +67,20 @@ public class UIManager : MonoBehaviour
     {
         Bullet.OnHitChar += SetEndRound;
         GameManager.OnResetLevel += ResetLevel;
+        ComboGenerator.OnMissCombo += ReduceTimer;
     }
+
 
     private void OnDisable()
     {
         Bullet.OnHitChar -= SetEndRound;
         GameManager.OnResetLevel -= ResetLevel;
+        ComboGenerator.OnMissCombo -= ReduceTimer;
+    }
+
+    private void ReduceTimer()
+    {
+        timeRemaining -= 0.25f;
     }
 
     private void ResetLevel(bool isDefeat)

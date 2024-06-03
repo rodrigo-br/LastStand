@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class ComboGenerator : MonoBehaviour
     [SerializeField] private Image panelImage;
     private List<GameObject> images;
     private int currentComboIndex = 0;
+    public static event Action OnMissCombo;
 
     private void Awake()
     {
@@ -46,6 +48,7 @@ public class ComboGenerator : MonoBehaviour
         {
             GameManager.Instance.AudioManager.PlayIncorrectComboClip();
             images[currentComboIndex].transform.DOShakePosition(1f, strength: 6);
+            OnMissCombo?.Invoke();
             return;
         }
         GameManager.Instance.AudioManager.PlayCorrectComboClip();
@@ -94,7 +97,7 @@ public class ComboGenerator : MonoBehaviour
 
     private GameObject GetRandomButton()
     {
-        return buttons[Random.Range(0, buttons.Length)];
+        return buttons[UnityEngine.Random.Range(0, buttons.Length)];
     }
 
     public void ShuffleMe()
